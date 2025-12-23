@@ -1,4 +1,3 @@
-/* Reset cơ bản */
 * { box-sizing: border-box; }
 body { 
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
@@ -8,7 +7,6 @@ body {
     overflow: hidden; /* Không cuộn body, chỉ cuộn panel con */
 }
 
-/* --- LAYOUT CHIA ĐÔI MÀN HÌNH --- */
 .main-container {
     display: flex;
     height: 100vh;
@@ -19,7 +17,6 @@ body {
     overflow-y: auto; /* Cho phép cuộn dọc */
 }
 
-/* Cột Trái (Editor) */
 .left-panel {
     width: 40%;
     background: #ffffff;
@@ -27,18 +24,15 @@ body {
     box-shadow: 2px 0 10px rgba(0,0,0,0.1);
 }
 
-/* Cột Phải (Menu List) */
 .right-panel {
     width: 60%;
     background: #f8f9fa;
 }
 
-/* --- CÁC THÀNH PHẦN CHUNG --- */
 h1 { margin-top: 0; color: #2c3e50; font-size: 1.5rem; }
 .subtitle { color: #7f8c8d; font-style: italic; margin-bottom: 20px; }
 .hidden { display: none !important; }
 
-/* Upload & Buttons */
 .upload-box { margin-bottom: 20px; background: #eee; padding: 15px; border-radius: 8px; text-align: center; }
 .btn-primary { background: #3498db; color: white; border: none; padding: 10px 20px; cursor: pointer; border-radius: 5px; font-weight: bold; }
 .btn-primary:hover { background: #2980b9; }
@@ -51,10 +45,8 @@ h1 { margin-top: 0; color: #2c3e50; font-size: 1.5rem; }
 }
 .btn-success:hover { background: #219150; }
 
-/* Loading Spinner */
 #loading { text-align: center; margin: 20px 0; color: #2980b9; font-weight: bold; }
 
-/* --- FORM EDITOR (CỘT TRÁI) --- */
 .editor-card img { 
     width: 100%; height: 200px; object-fit: cover; 
     border-radius: 8px; margin-bottom: 15px; border: 1px solid #ddd;
@@ -65,7 +57,6 @@ h1 { margin-top: 0; color: #2c3e50; font-size: 1.5rem; }
 .big-text { font-size: 1.1rem; font-weight: bold; color: #e67e22; }
 .price-text { font-weight: bold; color: #27ae60; }
 
-/* --- MENU LIST ITEMS (CỘT PHẢI - QUAN TRỌNG) --- */
 .menu-list {
     display: flex;
     flex-direction: column;
@@ -74,32 +65,29 @@ h1 { margin-top: 0; color: #2c3e50; font-size: 1.5rem; }
 
 .empty-state { text-align: center; color: #95a5a6; margin-top: 50px; font-size: 1.1rem; }
 
-/* Thẻ Món Ăn (Dạng Hàng Ngang) */
 .menu-item-row {
-    display: flex; /* Ảnh trái - Content phải */
+    display: flex; 
     background: white;
     border: 1px solid #ddd;
     border-radius: 8px;
     overflow: hidden;
     box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-    position: relative; /* Để căn nút xóa */
+    position: relative; 
     transition: all 0.2s;
 }
 .menu-item-row:hover { box-shadow: 0 5px 15px rgba(0,0,0,0.1); transform: translateY(-2px); }
 
-/* Ảnh trong menu */
 .menu-item-img {
-    width: 160px; /* Chiều rộng cố định */
+    width: 160px; 
     height: auto;
     object-fit: cover;
     border-right: 1px solid #eee;
     flex-shrink: 0;
 }
 
-/* Nội dung trong menu */
 .menu-item-content {
     flex: 1;
-    padding: 15px 45px 15px 20px; /* Padding phải rộng để né nút xóa */
+    padding: 15px 45px 15px 20px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -119,7 +107,6 @@ h1 { margin-top: 0; color: #2c3e50; font-size: 1.5rem; }
 .row-desc, .row-nutri { font-size: 0.9rem; color: #555; margin-bottom: 6px; line-height: 1.4; }
 .label { font-weight: bold; color: #34495e; margin-right: 5px; }
 
-/* Nút Xóa (Góc trên phải) */
 .btn-delete {
     position: absolute;
     top: 10px; right: 10px;

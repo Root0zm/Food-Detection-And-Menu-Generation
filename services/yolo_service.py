@@ -20,26 +20,21 @@ def detect_food(image_path):
 
     filename = os.path.basename(image_path)
     
-    # 1. Chạy dự đoán
-    # save=True: Tự động lưu ảnh có vẽ box
-    # project/name: Đường dẫn lưu ảnh
-    # conf=0.25: Ngưỡng nhận diện (thử giảm xuống nếu cần)
+    # save=True: save img with box
+    # project/name: img path
+    # conf=0.25: confidence threshold
     results = model.predict(
         image_path, 
         conf=0.25, 
         save=True, 
         project=os.path.join(BASE_DIR, 'static'),
         name='debug', 
-        exist_ok=True # Ghi đè thư mục cũ
+        exist_ok=True 
     )
     
     best_class = None
     max_conf = -1
     
-    #debug_image_path = os.path.join('static', 'debug', filename)
-
-    #print(f"📸 Ảnh debug đã lưu tại: {debug_image_path}")
-
     for result in results:
 
 

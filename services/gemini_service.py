@@ -11,19 +11,19 @@ client = None
 if API_KEY:
     client = genai.Client(api_key=API_KEY)
 
-# Thêm tham số ocr_text=None (để chờ sẵn tính năng OCR sau này)
+# WIP
 def get_nutrition_info(food_name, ocr_text=None):
     if not client:
         return {"error": "Chưa cấu hình API Key"}
     
     print(f"🤖 Gemini đang viết menu cho món: {food_name}...")
 
-    # Xử lý thông tin OCR (nếu có sau này)
+    # WIP
     ocr_context = ""
     if ocr_text:
         ocr_context = f"Ngoài ra, trên ảnh có dòng chữ này: '{ocr_text}'. Hãy tìm xem có giá tiền trong đó không."
 
-    # --- PROMPT ĐƯỢC CHỈNH SỬA THEO FORM CỦA BẠN ---
+    # PROMPT can be change for other use
     prompt = f"""
     Món ăn được nhận diện là: "{food_name}".
     {ocr_context}
