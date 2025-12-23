@@ -1,0 +1,134 @@
+/* Reset cơ bản */
+* { box-sizing: border-box; }
+body { 
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+    margin: 0; 
+    background: #ecf0f1; 
+    height: 100vh; /* Full màn hình */
+    overflow: hidden; /* Không cuộn body, chỉ cuộn panel con */
+}
+
+/* --- LAYOUT CHIA ĐÔI MÀN HÌNH --- */
+.main-container {
+    display: flex;
+    height: 100vh;
+}
+
+.panel {
+    padding: 20px;
+    overflow-y: auto; /* Cho phép cuộn dọc */
+}
+
+/* Cột Trái (Editor) */
+.left-panel {
+    width: 40%;
+    background: #ffffff;
+    border-right: 2px solid #bdc3c7;
+    box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+}
+
+/* Cột Phải (Menu List) */
+.right-panel {
+    width: 60%;
+    background: #f8f9fa;
+}
+
+/* --- CÁC THÀNH PHẦN CHUNG --- */
+h1 { margin-top: 0; color: #2c3e50; font-size: 1.5rem; }
+.subtitle { color: #7f8c8d; font-style: italic; margin-bottom: 20px; }
+.hidden { display: none !important; }
+
+/* Upload & Buttons */
+.upload-box { margin-bottom: 20px; background: #eee; padding: 15px; border-radius: 8px; text-align: center; }
+.btn-primary { background: #3498db; color: white; border: none; padding: 10px 20px; cursor: pointer; border-radius: 5px; font-weight: bold; }
+.btn-primary:hover { background: #2980b9; }
+
+.btn-success { 
+    background: #27ae60; color: white; border: none; padding: 12px; 
+    width: 100%; margin-top: 15px; cursor: pointer; border-radius: 5px; 
+    font-size: 1rem; font-weight: bold; text-transform: uppercase;
+    transition: background 0.3s;
+}
+.btn-success:hover { background: #219150; }
+
+/* Loading Spinner */
+#loading { text-align: center; margin: 20px 0; color: #2980b9; font-weight: bold; }
+
+/* --- FORM EDITOR (CỘT TRÁI) --- */
+.editor-card img { 
+    width: 100%; height: 200px; object-fit: cover; 
+    border-radius: 8px; margin-bottom: 15px; border: 1px solid #ddd;
+}
+.form-group { margin-bottom: 15px; }
+.form-group label { display: block; font-weight: bold; margin-bottom: 5px; color: #34495e; }
+.form-control { width: 100%; padding: 10px; border: 1px solid #bdc3c7; border-radius: 4px; font-family: inherit; }
+.big-text { font-size: 1.1rem; font-weight: bold; color: #e67e22; }
+.price-text { font-weight: bold; color: #27ae60; }
+
+/* --- MENU LIST ITEMS (CỘT PHẢI - QUAN TRỌNG) --- */
+.menu-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.empty-state { text-align: center; color: #95a5a6; margin-top: 50px; font-size: 1.1rem; }
+
+/* Thẻ Món Ăn (Dạng Hàng Ngang) */
+.menu-item-row {
+    display: flex; /* Ảnh trái - Content phải */
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    position: relative; /* Để căn nút xóa */
+    transition: all 0.2s;
+}
+.menu-item-row:hover { box-shadow: 0 5px 15px rgba(0,0,0,0.1); transform: translateY(-2px); }
+
+/* Ảnh trong menu */
+.menu-item-img {
+    width: 160px; /* Chiều rộng cố định */
+    height: auto;
+    object-fit: cover;
+    border-right: 1px solid #eee;
+    flex-shrink: 0;
+}
+
+/* Nội dung trong menu */
+.menu-item-content {
+    flex: 1;
+    padding: 15px 45px 15px 20px; /* Padding phải rộng để né nút xóa */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.row-header {
+    font-size: 1.1rem;
+    border-bottom: 2px solid #f0f0f0;
+    padding-bottom: 8px; margin-bottom: 8px;
+    color: #2c3e50;
+    display: flex; justify-content: space-between; align-items: center;
+}
+
+.dish-name { font-weight: bold; color: #2c3e50; }
+.dish-price { color: #d35400; font-weight: bold; font-size: 1.1rem; }
+
+.row-desc, .row-nutri { font-size: 0.9rem; color: #555; margin-bottom: 6px; line-height: 1.4; }
+.label { font-weight: bold; color: #34495e; margin-right: 5px; }
+
+/* Nút Xóa (Góc trên phải) */
+.btn-delete {
+    position: absolute;
+    top: 10px; right: 10px;
+    background: #e74c3c; color: white;
+    border: none; width: 28px; height: 28px;
+    border-radius: 50%; cursor: pointer;
+    font-weight: bold; font-size: 14px;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.2s;
+    opacity: 0.7;
+}
+.btn-delete:hover { background: #c0392b; opacity: 1; }

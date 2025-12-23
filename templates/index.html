@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Menu Builder</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div class="main-container">
+        <div class="panel left-panel">
+            <h1>🛠️ Scan & Edit</h1>
+            
+            <div class="upload-box">
+                <input type="file" id="imageInput" accept="image/*">
+                <button onclick="analyzeFood()" id="btnAnalyze" class="btn-primary">📸 Quét ảnh</button>
+            </div>
+
+            <div id="loading" class="hidden">
+                <div class="spinner"></div>
+                <p>🤖 AI đang phân tích món ăn...</p>
+            </div>
+
+            <div id="editorArea" class="hidden">
+                <div class="editor-card">
+                    <img id="editImg" src="" alt="Preview">
+                    
+                    <div class="form-group">
+                        <label>Tên món:</label>
+                        <input type="text" id="editName" class="form-control big-text">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Giá tiền:</label>
+                        <input type="text" id="editPrice" class="form-control price-text" placeholder="Ví dụ: 50.000đ">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Mô tả (Description):</label>
+                        <textarea id="editDesc" rows="4" class="form-control"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Dinh dưỡng (Nutrition):</label>
+                        <textarea id="editNutri" rows="3" class="form-control"></textarea>
+                    </div>
+
+                    <button onclick="addToMenu()" class="btn-success">
+                        ✅ Duyệt & Thêm vào Menu >>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel right-panel">
+            <h1>📜 Thực Đơn Nhà Hàng</h1>
+            <p class="subtitle">Danh sách món đã được duyệt</p>
+            
+            <div id="menuContainer" class="menu-list">
+                <div class="empty-state">Chưa có món nào trong menu. Hãy quét ảnh bên trái!</div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/js/script.js"></script>
+</body>
+</html>
