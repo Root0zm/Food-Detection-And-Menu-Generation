@@ -96,3 +96,24 @@ function removeMenuItem(button) {
         }
     }
 }
+
+function exportMenu() {
+    // Gọi trình in mặc định của trình duyệt
+    // Nhờ có CSS @media print, nó sẽ tự lọc giao diện
+    window.print();
+}
+
+// 2. Hàm Đổi Background (Demo)
+function changeBackground() {
+    const selector = document.getElementById('bgSelector');
+    const menuContainer = document.getElementById('menuContainer');
+    const selectedValue = selector.value;
+
+    // Xóa hết các class nền cũ
+    menuContainer.classList.remove('bg-paper', 'bg-modern');
+
+    // Thêm class nền mới dựa trên lựa chọn
+    if (selectedValue !== 'none') {
+        menuContainer.classList.add('bg-' + selectedValue);
+    }
+}

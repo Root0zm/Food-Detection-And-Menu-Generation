@@ -53,13 +53,27 @@
         </div>
 
         <div class="panel right-panel">
-            <h1>📜 Thực Đơn Nhà Hàng</h1>
-            <p class="subtitle">Danh sách món đã được duyệt</p>
-            
-            <div id="menuContainer" class="menu-list">
-                <div class="empty-state">Chưa có món nào trong menu. Hãy quét ảnh bên trái!</div>
-            </div>
+    
+    <div class="menu-header-tools">
+        <h1>📜 Thực Đơn Nhà Hàng</h1>
+        
+        <div class="tools-actions">
+            <select id="bgSelector" onchange="changeBackground()" class="tool-select">
+                <option value="none">⚪ Nền trắng (Mặc định)</option>
+                <option value="paper">📜 Giấy cũ (Vintage)</option>
+                <option value="modern">✨ Hiện đại (Gradient)</option>
+            </select>
+
+            <button onclick="exportMenu()" class="btn-print">Xuất PDF </button>
         </div>
+    </div>
+
+    <p class="subtitle">Danh sách món đã được duyệt</p>
+    
+    <div id="menuContainer" class="menu-list printable-area">
+        <div class="empty-state">Chưa có món nào trong menu.</div>
+    </div>
+</div>
     </div>
 
     <script src="/static/js/script.js"></script>
