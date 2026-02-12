@@ -16,13 +16,19 @@ def get_nutrition_info(food_name, ocr_text=None):
     if not client:
         return {"error": "Chưa cấu hình API Key"}
     
-    print(f"🤖 Gemini đang viết menu cho món: {food_name}...")
+    print(f" Gemini đang viết mô tả cho món: {food_name}...")
 
     # WIP
     ocr_context = ""
     if ocr_text:
-        ocr_context = f"Ngoài ra, trên ảnh có dòng chữ này: '{ocr_text}'. Hãy tìm xem có giá tiền trong đó không."
-
+       if ocr_text:
+        # Sửa lại câu dẫn dắt một chút để AI hiểu ngữ cảnh hơn
+        ocr_context = f"""
+        Thông tin bổ sung từ OCR (chữ đọc được trên ảnh): "{ocr_text}".
+        Hãy sử dụng thông tin này để:
+        1. Xác định tên món chính xác hơn (ví dụ YOLO ra "Phở", nhưng OCR ra "Phở Đặc Biệt" thì dùng "Phở Đặc Biệt").
+        2. Tìm chính xác giá tiền gắn liền với món "{food_name}".
+        """
     # PROMPT can be change for other use
     prompt = f"""
     Món ăn được nhận diện là: "{food_name}".
@@ -34,7 +40,8 @@ def get_nutrition_info(food_name, ocr_text=None):
     2. Viết mô tả hấp dẫn (Description).
     3. Viết tóm tắt dinh dưỡng (Estimated nutrition).
     4. Tìm giá tiền (Price). Nếu trong thông tin tôi cung cấp không có giá, hãy để là "Unavailable".
-    
+    5. Chuẩn hóa giá tiền về dạng số (Ví dụ: "35k" -> 35000, "35.000" -> 35000).
+
     Trả về JSON với cấu trúc chính xác như sau:
     {{
         "dish_name": "Tên món",
@@ -75,3 +82,4 @@ def get_nutrition_info(food_name, ocr_text=None):
             "description": "Không thể lấy mô tả.",
             "nutrition_summary": "Không thể phân tích dinh dưỡng."
         }
+

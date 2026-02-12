@@ -11,7 +11,7 @@ try:
     print(f"🔄 Đang load model từ: {MODEL_PATH}")
     model = YOLO(MODEL_PATH)
 except Exception as e:
-    print(f"❌ Lỗi load model: {e}")
+    print(f"Lỗi load model: {e}")
     model = None
 
 def detect_food(image_path):
@@ -39,7 +39,7 @@ def detect_food(image_path):
 
 
         if len(result.boxes) == 0:
-            print("⚠️ Không thấy object nào!")
+            print("Không thấy món nào!")
             return None
 
         for box in result.boxes:
@@ -53,6 +53,6 @@ def detect_food(image_path):
                 max_conf = confidence
                 best_class = class_name
             
-    print(f"✅ Kết quả chốt: {best_class}")
+    print(f"Kết quả chốt: {best_class}")
     
     return best_class
