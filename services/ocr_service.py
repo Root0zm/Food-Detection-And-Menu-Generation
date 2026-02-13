@@ -13,7 +13,8 @@ class OCRService:
         """Khởi tạo PaddleOCR cho phiên bản Pipeline mới."""
         # Với bản mới, các tham số cấu hình thường được nhận tự động hoặc qua config file.
         # Ta khởi tạo đơn giản nhất để tránh lỗi tham số lạ.
-        self.ocr = PaddleOCR(lang='vi', use_angle_cls=True)
+        self.ocr = PaddleOCR(lang='vi', use_textline_orientation=False, use_doc_orientation_classify=False,
+    use_doc_unwarping=False)
 
     def extract_text(self, img_path: str) -> List[str]:
         """
@@ -35,8 +36,6 @@ class OCRService:
             for res in results:
                 # Kiểm tra xem object có thuộc tính 'rec_texts' không (đây là đặc trưng bản mới)
                 if hasattr(res, 'rec_texts'):
-                    # res.rec_texts là danh sách các dòng chữ đã đọc được
-                    # Nó có thể bao gồm cả None hoặc string rỗng, cần lọc kỹ
                     if res.rec_texts:
                         for text in res.rec_texts:
                             if text:
@@ -52,6 +51,10 @@ class OCRService:
                 text = text.strip()
                 if not text: continue
                 
+                if text.lower() in ['k', 'đ', 'd', '$', 'vnd', 'xu']:
+                    clean_texts.append(text)
+                    continue
+
                 # Lọc rác: Bỏ qua chuỗi ngắn (trừ số) & ký tự lạ
                 if len(text) < 2 and not re.search(r'\d', text):
                     continue
@@ -69,15 +72,15 @@ class OCRService:
             traceback.print_exc()
             return []
 
-# --- TEST CODE ---
+ #--- TEST CODE ---
 
-# if __name__ == "__main__":
-#    service = OCRService()
- #  test_path = r"static/debug/kaka.jpg" 
-  ##  print(f"🔍 Đang đọc: {test_path}")
-   # texts = service.extract_text(test_path)
-    
-   # print("-" * 30)
-   # print(f"✅ KẾT QUẢ ({len(texts)} dòng):")
-   # for t in texts:
-   #     print(f"  - {t}") ##
+#if __name__ == "__main__":
+ #   service = OCRService()
+  #  test_path = r"static/debug/bunbohue.png" 
+  #  print(f"🔍 Đang đọc: {test_path}")
+  #  texts = service.extract_text(test_path)
+  #  
+  #  print("-" * 30)
+  #  print(f"✅ KẾT QUẢ ({len(texts)} dòng):")
+  #  for t in texts:
+  #      print(f"  - {t}") ##

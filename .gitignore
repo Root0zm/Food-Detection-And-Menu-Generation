@@ -7,3 +7,4 @@ static/uploads/*
 static/debug/*
 models/*.pt
 output
+debug.py

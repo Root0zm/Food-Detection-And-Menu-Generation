@@ -1,16 +1,18 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Menu Builder</title>
+    <title>Menu Generation</title>
     <link rel="stylesheet" href="/static/css/style.css">
 </head>
+
 <body>
     <div class="main-container">
         <div class="panel left-panel">
-            <h1>🛠️ Scan & Edit</h1>
-            
+            <h1>Scan & Edit</h1>
+
             <div class="upload-box">
                 <input type="file" id="imageInput" accept="image/*">
                 <button onclick="analyzeFood()" id="btnAnalyze" class="btn-primary">📸 Quét ảnh</button>
@@ -18,13 +20,13 @@
 
             <div id="loading" class="hidden">
                 <div class="spinner"></div>
-                <p>🤖 AI đang phân tích món ăn...</p>
+                <p>Đang phân tích món ăn...</p>
             </div>
 
             <div id="editorArea" class="hidden">
                 <div class="editor-card">
                     <img id="editImg" src="" alt="Preview">
-                    
+
                     <div class="form-group">
                         <label>Tên món:</label>
                         <input type="text" id="editName" class="form-control big-text">
@@ -32,7 +34,7 @@
 
                     <div class="form-group">
                         <label>Giá tiền:</label>
-                        <input type="text" id="editPrice" class="form-control price-text" placeholder="Ví dụ: 50.000đ">
+                        <input type="text" id="editPrice" class="form-control price-text">
                     </div>
 
                     <div class="form-group">
@@ -46,36 +48,37 @@
                     </div>
 
                     <button onclick="addToMenu()" class="btn-success">
-                        ✅ Duyệt & Thêm vào Menu >>
+                        Thêm vào Menu
                     </button>
                 </div>
             </div>
         </div>
 
         <div class="panel right-panel">
-    
-    <div class="menu-header-tools">
-        <h1>📜 Thực Đơn Nhà Hàng</h1>
-        
-        <div class="tools-actions">
-            <select id="bgSelector" onchange="changeBackground()" class="tool-select">
-                <option value="none">⚪ Nền trắng (Mặc định)</option>
-                <option value="paper">📜 Giấy cũ (Vintage)</option>
-                <option value="modern">✨ Hiện đại (Gradient)</option>
-            </select>
 
-            <button onclick="exportMenu()" class="btn-print">Xuất PDF </button>
+            <div class="menu-header-tools">
+                <h1>📜 Thực Đơn Nhà Hàng</h1>
+
+                <div class="tools-actions">
+                    <select id="bgSelector" onchange="changeBackground()" class="tool-select">
+                        <option value="none">⚪ Nền trắng (Mặc định)</option>
+                        <option value="paper">📜 Giấy cũ (Vintage)</option>
+                        <option value="modern">✨ Hiện đại (Gradient)</option>
+                    </select>
+
+                    <button onclick="exportMenu()" class="btn-print">Xuất PDF </button>
+                </div>
+            </div>
+
+            <p class="subtitle">Danh sách món đã được duyệt</p>
+
+            <div id="menuContainer" class="menu-list printable-area">
+                <div class="empty-state">Chưa có món nào trong menu.</div>
+            </div>
         </div>
-    </div>
-
-    <p class="subtitle">Danh sách món đã được duyệt</p>
-    
-    <div id="menuContainer" class="menu-list printable-area">
-        <div class="empty-state">Chưa có món nào trong menu.</div>
-    </div>
-</div>
     </div>
 
     <script src="/static/js/script.js"></script>
 </body>
+
 </html>
