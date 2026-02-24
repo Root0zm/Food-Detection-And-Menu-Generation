@@ -1,6 +1,11 @@
 flask
 ultralytics
-opencv-python
 pillow
 google-genai
 python-dotenv
+numpy
+gunicorn
+opencv-python-headless
+paddleocr
+torch==2.4.1
+gevent 

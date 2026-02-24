@@ -1,10 +1,13 @@
-* { box-sizing: border-box; }
-body { 
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-    margin: 0; 
-    background: transparent; 
-    height: 100vh; /* Full màn hình */
-    overflow: hidden; /* Không cuộn body, chỉ cuộn panel con */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    background: transparent;
+    height: 100vh;
+    overflow: hidden;
 }
 
 .main-container {
@@ -14,197 +17,89 @@ body {
 
 .panel {
     padding: 20px;
-    overflow-y: auto; /* Cho phép cuộn dọc */
+    overflow-y: auto;
 }
 
 .left-panel {
-    width: 40%;
+    width: 100%;
     background: #ffffff;
-    border-right: 2px solid #bdc3c7;
-    box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.right-panel {
-    width: 60%;
-    background: #f8f9fa;
-}
-
-h1 { margin-top: 0; color: #2c3e50; font-size: 1.5rem; }
-.subtitle { color: #7f8c8d; font-style: italic; margin-bottom: 20px; }
-.hidden { display: none !important; }
-
-.upload-box { margin-bottom: 20px; background: #eee; padding: 15px; border-radius: 8px; text-align: center; }
-.btn-primary { background: #3498db; color: white; border: none; padding: 10px 20px; cursor: pointer; border-radius: 5px; font-weight: bold; }
-.btn-primary:hover { background: #2980b9; }
-
-.btn-success { 
-    background: #27ae60; color: white; border: none; padding: 12px; 
-    width: 100%; margin-top: 15px; cursor: pointer; border-radius: 5px; 
-    font-size: 1rem; font-weight: bold; text-transform: uppercase;
-    transition: background 0.3s;
-}
-.btn-success:hover { background: #219150; }
-
-#loading { text-align: center; margin: 20px 0; color: #2980b9; font-weight: bold; }
-
-.editor-card img { 
-    width: 100%; height: 200px; object-fit: cover; 
-    border-radius: 8px; margin-bottom: 15px; border: 1px solid #ddd;
-}
-.form-group { margin-bottom: 15px; }
-.form-group label { display: block; font-weight: bold; margin-bottom: 5px; color: #34495e; }
-.form-control { width: 100%; padding: 10px; border: 1px solid #bdc3c7; border-radius: 4px; font-family: inherit; }
-.big-text { font-size: 1.1rem; font-weight: bold; color: #e67e22; }
-.price-text { font-weight: bold; color: #27ae60; }
-
-.menu-list {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
-.empty-state { text-align: center; color: #95a5a6; margin-top: 50px; font-size: 1.1rem; }
-
-.menu-item-row {
-    display: flex; 
-
-
-    background: rgba(255, 255, 255, 0.65);
-    backdrop-filter: blur(5px); 
-
-
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-    position: relative; 
-    transition: all 0.2s;
-}
-.menu-item-row:hover { box-shadow: 0 5px 15px rgba(0,0,0,0.1); transform: translateY(-2px); }
-
-.menu-item-img {
-    width: 160px; 
-    height: auto;
-    object-fit: cover;
-    border-right: 1px solid #eee;
-    flex-shrink: 0;
-}
-
-.menu-item-content {
-    flex: 1;
-    padding: 15px 45px 15px 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
-.row-header {
-    font-size: 1.1rem;
-    border-bottom: 2px solid #f0f0f0;
-    padding-bottom: 8px; margin-bottom: 8px;
+h1 {
+    margin-top: 0;
     color: #2c3e50;
-    display: flex; justify-content: space-between; align-items: center;
+    font-size: 1.5rem;
 }
 
-.dish-name { font-weight: bold; color: #2c3e50; }
-.dish-price { color: #d35400; font-weight: bold; font-size: 1.1rem; }
-
-.row-desc, .row-nutri { font-size: 0.9rem; color: #555; margin-bottom: 6px; line-height: 1.4; }
-.label { font-weight: bold; color: #34495e; margin-right: 5px; }
-
-.btn-delete {
-    position: absolute;
-    top: 10px; right: 10px;
-    background: #e74c3c; color: white;
-    border: none; width: 28px; height: 28px;
-    border-radius: 50%; cursor: pointer;
-    font-weight: bold; font-size: 14px;
-    display: flex; align-items: center; justify-content: center;
-    transition: background 0.2s;
-    opacity: 0.7;
-}
-.btn-delete:hover { background: #c0392b; opacity: 1; }
-
-
-
-
-
-.menu-header-tools {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
-    flex-wrap: wrap;
+.hidden {
+    display: none !important;
 }
 
-.tools-actions { display: flex; gap: 10px; }
+.upload-box {
+    margin-bottom: 20px;
+    background: #eee;
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+}
 
-.tool-select {
-    padding: 8px; border-radius: 5px; border: 1px solid #ccc;
+.btn-primary {
+    background: #3498db;
+    color: white;
+    border: none;
+    padding: 10px 20px;
     cursor: pointer;
+    border-radius: 5px;
+    font-weight: bold;
 }
 
-.btn-print {
-    background: #8e44ad; color: white; border: none;
-    padding: 8px 15px; border-radius: 5px; font-weight: bold; cursor: pointer;
-}
-.btn-print:hover { background: #732d91; }
-
-
-/* --- XỬ LÝ BACKGROUND (Demo tương lai) --- */
-/* Class này sẽ được JS thêm vào menuContainer */
-.bg-paper {
-    background-color: #fdfbf7;
-    background-image: url('../bgr/paper.jpg');
-    border: 1px solid #d7d7d7;
-    padding: 20px; /* Thêm padding để chữ không sát lề khi có nền */
+.btn-primary:hover {
+    background: #2980b9;
 }
 
-.bg-modern {
-    background-color: #fdfbf7;
-    background-image: url('../bgr/leaf.jpg');
-    border: 1px solid #d7d7d7;
-    padding: 20px; /* Thêm padding để chữ không sát lề khi có nền */
+#loading {
+    text-align: center;
+    margin: 20px 0;
+    color: #2980b9;
+    font-weight: bold;
 }
 
+.editor-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+}
 
-/* --- CẤU HÌNH IN ẤN (QUAN TRỌNG NHẤT) --- */
-@media print {
-    /* 1. Ẩn tất cả những thứ không cần thiết */
-    .left-panel, .upload-box, .btn-delete, .menu-header-tools, .subtitle {
-        display: none !important;
-    }
+.form-group {
+    margin-bottom: 15px;
+}
 
-    /* 2. Cấu hình lại trang in */
-    body, .main-container {
-        height: auto;
-        overflow: visible;
-        background: white;
-        display: block; /* Hủy flexbox để in thẳng hàng */
-    }
+.form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #34495e;
+}
 
-    .right-panel {
-        width: 100%; /* In full khổ giấy */
-        background: white; /* Bỏ màu xám của app */
-        position: absolute;
-        top: 0; left: 0;
-        padding: 0;
-        margin: 0;
-    }
+.form-control {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #bdc3c7;
+    border-radius: 4px;
+    font-family: inherit;
+}
 
-    /* 3. Bắt buộc in cả màu nền và ảnh nền */
-    .printable-area {
-        -webkit-print-color-adjust: exact;
-        print-color-adjust: exact;
-        
-        /* Nếu dùng background, đảm bảo nó phủ kín trang in */
-        min-height: 100vh; 
-    }
-    
-    /* 4. Tùy chỉnh menu khi in cho đẹp hơn */
-    .menu-item-row {
-        break-inside: avoid; /* Không để 1 món bị cắt đôi giữa 2 trang giấy */
-        box-shadow: none; /* Bỏ bóng đổ cho sạch sẽ */
-        border: 1px solid #ccc;
-    }
+.big-text {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #e67e22;
+}
+
+.price-text {
+    font-weight: bold;
+    color: #27ae60;
 }
