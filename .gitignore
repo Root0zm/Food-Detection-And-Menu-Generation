@@ -5,6 +5,5 @@ __pycache__/
 *.pyc
 static/uploads/*
 static/debug/*
-models/*.pt
 output
 debug.py
