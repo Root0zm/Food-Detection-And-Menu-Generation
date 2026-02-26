@@ -5,6 +5,5 @@ google-genai
 python-dotenv
 numpy
 gunicorn
-opencv-python-headless
+opencv-python==4.9.0.80
 paddleocr
-gevent 
