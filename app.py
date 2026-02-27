@@ -37,17 +37,13 @@ def analyze():
 
     if file:
         try:
-            # Lưu file ảnh
             filename = file.filename
             filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
             file.save(filepath)
-            
-            # Chuẩn hóa đường dẫn (đề phòng lỗi path trên Windows/Linux)
-            # PaddleOCR đôi khi cần đường dẫn tuyệt đối hoặc forward slash
             filepath_fixed = filepath.replace("\\", "/")
 
             # ==========================================
-            # BƯỚC 1: YOLO DETECT (Nhận diện món ăn)
+            # YOLO DETECT 
             # ==========================================
             print(f"🔍 Đang chạy YOLO cho ảnh: {filename}")
             detected_name = detect_food(filepath_fixed)
@@ -61,7 +57,7 @@ def analyze():
             print(f"✅ YOLO phát hiện: {detected_name}")
 
             # ==========================================
-            # BƯỚC 2: OCR (Đọc chữ trên ảnh) - MỚI THÊM
+            #  OCR 
             # ==========================================
             extracted_text = None # Mặc định là None
             
@@ -82,7 +78,7 @@ def analyze():
                     # Không return lỗi, vẫn để app chạy tiếp chỉ với YOLO
 
             # ==========================================
-            # BƯỚC 3: GEMINI (Phân tích dinh dưỡng & Giá)
+            #  GEMINI 
             # ==========================================
             print("🤖 Đang gọi Gemini...")
             try:
@@ -97,18 +93,18 @@ def analyze():
                     "nutrition_summary": "Không thể lấy thông tin."
                 }
 
-            # Trả kết quả về Frontend
+          
             return jsonify({
                 'success': True,
-                'image_url': f"/{filepath_fixed}", # Trả về đường dẫn để hiển thị ảnh
+                'image_url': f"/{filepath_fixed}", 
                 'data': menu_data,
-                'debug_ocr': extracted_text # (Tùy chọn) Gửi kèm text OCR để debug
+                'debug_ocr': extracted_text 
             })
 
         except Exception as e:
-            print(f"❌ Lỗi Server: {e}") # In lỗi ra terminal để dễ sửa
+            print(f"❌ Lỗi Server: {e}") 
             return jsonify({'error': f'Lỗi server nội bộ: {str(e)}'}), 500
 
 if __name__ == '__main__':
-    # Tắt debug=True nếu chạy production, nhưng dev thì cứ để
+   
     app.run(debug=True, port=5000)

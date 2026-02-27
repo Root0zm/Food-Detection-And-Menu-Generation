@@ -3,48 +3,75 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Menu Builder</title>
+    <title>Now i know what i eat</title>
     <link rel="stylesheet" href="/static/css/style.css">
 </head>
 <body>
-    <div class="main-container">
-        <div class="panel left-panel">
-            <h1>🛠️ Scan & Edit</h1>
+    
+    <div class="hero-section">
+    <!--<div class="badge">● AI TECHNOLOGY</div> --> 
+        <h1>Analyze food with <span class="highlight">AI</span><br> in seconds</h1>
+        <p>Powered by advanced YOLO and OCR technology to extract menu information instantly.</p>
+    </div>  
+
+    <div class="action-cards">
+        
+        <label for="imageInput" class="action-card upload-card">
+            <div class="icon-wrapper">
+                <span class="icon">☁️</span> 
+            </div>
+            <h3>Upload image</h3>
+            <p>Click here to choose an image from your device.</p>
+            <input type="file" id="imageInput" accept="image/*" style="display: none;">
+        </label>
+
+        <div class="action-card camera-card">
+            <div class="icon-wrapper">
+                <span class="icon">📷</span>
+            </div>
+            <h3>Take a photo</h3>
+            <p>Use your device's camera to scan and identify food items instantly.</p>
+            <button onclick="startCamera()" id="btnOpenCamera" class="btn-trigger">Activate Camera</button>
+        </div>
+
+    </div>
+
+    <div id="cameraContainer" class="hidden camera-preview-box">
+        <video id="videoElement" autoplay playsinline></video>
+        <div class="camera-actions">
+            <button onclick="capturePhoto()" class="btn-trigger">📸 Capture</button>
+            <button onclick="stopCamera()" class="btn-close">❌ Close</button>
+        </div>
+    </div>
+    <canvas id="canvasElement" style="display: none;"></canvas>
+
+    <div id="loading" class="hidden">
+        <div class="spinner"></div>
+        <p> Analyzing food...</p>
+    </div>
+
+    <div id="editorArea" class="hidden">
+        <div class="editor-card">
+            <img id="editImg" src="" alt="Preview">
             
-            <div class="upload-box">
-                <input type="file" id="imageInput" accept="image/*">
-                <button onclick="analyzeFood()" id="btnAnalyze" class="btn-primary">📸 Quét ảnh</button>
+            <div class="form-group">
+                <label>Dish Name:</label>
+                <input type="text" id="editName" class="form-control big-text">
             </div>
 
-            <div id="loading" class="hidden">
-                <div class="spinner"></div>
-                <p>🤖 AI đang phân tích món ăn...</p>
+            <div class="form-group">
+                <label>Price:</label>
+                <input type="text" id="editPrice" class="form-control price-text" placeholder="Ví dụ: 50.000đ">
             </div>
 
-            <div id="editorArea" class="hidden">
-                <div class="editor-card">
-                    <img id="editImg" src="" alt="Preview">
-                    
-                    <div class="form-group">
-                        <label>Tên món:</label>
-                        <input type="text" id="editName" class="form-control big-text">
-                    </div>
+            <div class="form-group">
+                <label>Description:</label>
+                <textarea id="editDesc" rows="4" class="form-control"></textarea>
+            </div>
 
-                    <div class="form-group">
-                        <label>Giá tiền:</label>
-                        <input type="text" id="editPrice" class="form-control price-text" placeholder="Ví dụ: 50.000đ">
-                    </div>
-
-                    <div class="form-group">
-                        <label>Mô tả (Description):</label>
-                        <textarea id="editDesc" rows="4" class="form-control"></textarea>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Dinh dưỡng (Nutrition):</label>
-                        <textarea id="editNutri" rows="3" class="form-control"></textarea>
-                    </div>
-                </div>
+            <div class="form-group">
+                <label>Nutrition:</label>
+                <textarea id="editNutri" rows="3" class="form-control"></textarea>
             </div>
         </div>
     </div>

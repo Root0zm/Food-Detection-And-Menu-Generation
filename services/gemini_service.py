@@ -11,43 +11,42 @@ client = None
 if API_KEY:
     client = genai.Client(api_key=API_KEY)
 
-# WIP
+
 def get_nutrition_info(food_name, ocr_text=None):
     if not client:
         return {"error": "Chưa cấu hình API Key"}
     
     print(f" Gemini đang viết mô tả cho món: {food_name}...")
 
-    # WIP
+   
     ocr_context = ""
+
     if ocr_text:
-       if ocr_text:
-        # Sửa lại câu dẫn dắt một chút để AI hiểu ngữ cảnh hơn
         ocr_context = f"""
-        Thông tin bổ sung từ OCR (chữ đọc được trên ảnh): "{ocr_text}".
-        Hãy sử dụng thông tin này để:
-        1. Xác định tên món chính xác hơn (ví dụ YOLO ra "Phở", nhưng OCR ra "Phở Đặc Biệt" thì dùng "Phở Đặc Biệt").
-        2. Tìm chính xác giá tiền gắn liền với món "{food_name}".
+        Additional information from OCR (text read from the image): "{ocr_text}".
+        Please use this information to:
+        1. Determine a more accurate dish name (e.g., if the identified dish is "Pho", but OCR reads "Special Pho", use "Special Pho").
+        2. Find the exact price associated with the dish "{food_name}".
         """
-    # PROMPT can be change for other use
+        
     prompt = f"""
-    Món ăn được nhận diện là: "{food_name}".
+    The identified dish is: "{food_name}".
     {ocr_context}
     
-    Hãy đóng vai một chuyên gia ẩm thực viết nội dung cho menu nhà hàng.
-    Nhiệm vụ:
-    1. Dịch tên món sang Tiếng Việt (hoặc Tiếng Anh nếu phổ biến).
-    2. Viết mô tả hấp dẫn (Description).
-    3. Viết tóm tắt dinh dưỡng (Estimated nutrition).
-    4. Tìm giá tiền (Price). Nếu trong thông tin tôi cung cấp không có giá, hãy để là "Unavailable".
-    5. Chuẩn hóa giá tiền về dạng số (Ví dụ: "35k" -> 35000, "35.000" -> 35000).
+    Act as a culinary expert writing content for a restaurant menu.
+    Your tasks:
+    1. Provide the dish name in English (translate from Vietnamese if necessary).
+    2. Write an appetizing description.
+    3. Write a brief nutrition summary.
+    4. Find the price from the provided text. If no price is available, output "Unavailable".
+    5. Normalize the price into a numeric format (e.g., "35k" -> 35000, "35.000" -> 35000).
 
-    Trả về JSON với cấu trúc chính xác như sau:
+    Return a JSON object with the exact following structure. All text values MUST be in English:
     {{
-        "dish_name": "Tên món",
-        "price": "Unavailable (hoặc giá tìm được từ text)",
-        "description": "Đoạn mô tả ngắn gọn, hấp dẫn khoảng 2-3 câu.",
-        "nutrition_summary": "Tóm tắt ngắn gọn về calo, protein và lợi ích sức khỏe."
+        "dish_name": "Dish name in English",
+        "price": "Unavailable (or the numeric price found)",
+        "description": "A short, appetizing description of about 2-3 sentences in English.",
+        "nutrition_summary": "A brief summary of calories, protein, and health benefits in English."
     }}
     """
     
@@ -61,7 +60,6 @@ def get_nutrition_info(food_name, ocr_text=None):
         },
         "required": ["dish_name", "price", "description", "nutrition_summary"]
     }
-
     try:
         response = client.models.generate_content(
             model="gemini-2.5-flash",
