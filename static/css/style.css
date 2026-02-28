@@ -254,3 +254,224 @@ body {
     font-weight: bold;
     color: #00e676; 
 }
+
+
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #17241e;
+    padding: 15px 30px;
+    border-bottom: 2px solid #2b4535;
+    position: sticky; 
+    top: 0;
+    z-index: 1000;
+}
+
+.navbar .logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #00e676;
+}
+
+.nav-links {
+    display: flex;
+    gap: 15px;
+}
+
+
+.nav-btn {
+    background: transparent;
+    color: #a0aab2;
+    border: none;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 10px 20px;
+    border-radius: 8px;
+    transition: all 0.2s;
+}
+
+.nav-btn:hover {
+    color: #ffffff;
+    background-color: #1f3328;
+}
+
+
+.nav-btn.active {
+    color: #000000;
+    background-color: #00e676;
+}
+
+.tab-content.hidden {
+    display: none !important;
+}
+
+
+.menu-builder-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.menu-controls {
+    background-color: #17241e;
+    padding: 30px;
+    border-radius: 12px;
+    text-align: center;
+    margin-bottom: 30px;
+    border: 2px dashed #2b4535;
+}
+
+.add-menu-btn {
+    display: inline-block;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.menu-header-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.export-btn {
+    background-color: #ffb74d; 
+    color: #000;
+}
+
+.export-btn:hover {
+    background-color: #f57c00;
+}
+
+.pdf-container {
+    background-color: #ffffff;
+    color: #000000;
+    padding: 40px;
+    border-radius: 8px;
+    min-height: 500px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.restaurant-name {
+    text-align: center;
+    color: #2c3e50;
+    border-bottom: 2px solid #2c3e50;
+    padding-bottom: 15px;
+    margin-bottom: 30px;
+    font-size: 2.5rem;
+}
+
+.menu-item {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 25px;
+    padding-bottom: 20px;
+    border-bottom: 1px dashed #ccc;
+    position: relative;
+}
+
+.menu-item-img {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-right: 20px;
+}
+
+.menu-item-info {
+    flex: 1;
+}
+
+.menu-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 8px;
+}
+
+.menu-item-name {
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: #d35400;
+    margin: 0;
+}
+
+.menu-item-price {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #27ae60;
+    margin: 0;
+}
+
+.menu-item-desc {
+    font-size: 0.95rem;
+    color: #555;
+    margin: 0 0 5px 0;
+}
+
+.menu-item-nutri {
+    font-size: 0.85rem;
+    color: #7f8c8d;
+    font-style: italic;
+    margin: 0;
+}
+
+.remove-btn {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    margin-left: 15px;
+}
+
+.pdf-exporting .remove-btn {
+    display: none !important;
+}
+
+.empty-menu-msg {
+    text-align: center;
+    color: #7f8c8d;
+    font-size: 1.1rem;
+    margin-top: 50px;
+}
+
+@media print {
+    .navbar, 
+    .hero-section, 
+    .menu-controls, 
+    .menu-header-actions,
+    .remove-btn {
+        display: none !important;
+    }
+
+    body {
+        background-color: #ffffff !important;
+        color: #000000 !important;
+        height: auto !important;
+        overflow: visible !important;
+    }
+
+    .pdf-container {
+        box-shadow: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+
+    .menu-item {
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+        margin-bottom: 30px !important;
+    }
+    
+    .tab-content {
+        display: block !important;
+    }
+}

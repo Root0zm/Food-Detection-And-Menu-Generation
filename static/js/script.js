@@ -118,3 +118,121 @@ async function analyzeFood() {
 }
 
 
+function switchTab(tabId) {
+     document.querySelectorAll('.tab-content').forEach(tab => {
+        tab.classList.add('hidden');
+    });
+    
+    
+    document.querySelectorAll('.nav-btn').forEach(btn => {
+        btn.classList.remove('active');
+    });
+    
+     document.getElementById(tabId).classList.remove('hidden');
+    
+     document.getElementById('btn-' + tabId).classList.add('active');
+    
+     window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+ 
+ let menuItems = JSON.parse(localStorage.getItem('myRestaurantMenu')) || [];
+
+ document.addEventListener('DOMContentLoaded', () => {
+    renderMenu();
+});
+
+ async function analyzeForMenu(inputElement) {
+    if (!inputElement.files || inputElement.files.length === 0) return;
+    
+    const file = inputElement.files[0];
+    const loadingDiv = document.getElementById('menuLoading');
+    
+    loadingDiv.classList.remove('hidden');
+    
+    const formData = new FormData();
+    formData.append('file', file);
+
+    try {
+        const response = await fetch('/analyze', {
+            method: 'POST',
+            body: formData
+        });
+
+        const data = await response.json();
+        loadingDiv.classList.add('hidden');
+
+        if (data.success) {
+             let rawPrice = String(data.data.price);
+            let numericPrice = parseInt(rawPrice.replace(/\D/g, ''), 10);
+            let formattedPrice = !isNaN(numericPrice) ? numericPrice.toLocaleString('en-US') + " VND" : rawPrice;
+
+             const newItem = {
+                id: Date.now(),  
+                imageUrl: data.image_url,
+                name: data.data.dish_name,
+                price: formattedPrice,
+                description: data.data.description,
+                nutrition: data.data.nutrition_summary
+            };
+
+             menuItems.push(newItem);
+            localStorage.setItem('myRestaurantMenu', JSON.stringify(menuItems));
+            
+             renderMenu();
+            
+             inputElement.value = "";
+        } else {
+            alert("Server Error: " + data.message);
+        }
+
+    } catch (error) {
+        console.error("Error:", error);
+        loadingDiv.classList.add('hidden');
+        alert("Cannot connect to the server. Please try again later.");
+    }
+}
+
+ function removeFromMenu(id) {
+    menuItems = menuItems.filter(item => item.id !== id);
+    localStorage.setItem('myRestaurantMenu', JSON.stringify(menuItems));
+    renderMenu();
+}
+
+ function renderMenu() {
+    const listContainer = document.getElementById('menuList');
+    listContainer.innerHTML = ''; 
+
+    if (menuItems.length === 0) {
+        listContainer.innerHTML = '<p class="empty-menu-msg">Your menu is empty. Add some dishes!</p>';
+        return;
+    }
+
+    menuItems.forEach(item => {
+        const itemDiv = document.createElement('div');
+        itemDiv.className = 'menu-item';
+        
+        itemDiv.innerHTML = `
+            <img src="${item.imageUrl}" alt="${item.name}" class="menu-item-img">
+            <div class="menu-item-info">
+                <div class="menu-item-header">
+                    <h4 class="menu-item-name">${item.name}</h4>
+                    <span class="menu-item-price">${item.price}</span>
+                </div>
+                <p class="menu-item-desc">${item.description}</p>
+                <p class="menu-item-nutri">Nutrition: ${item.nutrition}</p>
+            </div>
+            <button onclick="removeFromMenu(${item.id})" class="remove-btn">✖ Remove</button>
+        `;
+        listContainer.appendChild(itemDiv);
+    });
+}
+
+ function exportToPDF() {
+    if (menuItems.length === 0) {
+        alert("Cannot export an empty menu!");
+        return;
+    }
+    
+     window.print();
+}
+
