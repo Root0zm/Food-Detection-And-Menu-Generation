@@ -58,7 +58,7 @@ async function analyzeFood() {
     const fileInput = document.getElementById('imageInput');
     const loadingDiv = document.getElementById('loading');
     const editorArea = document.getElementById('editorArea');
-
+    const selectedLang = document.getElementById('outputLanguage').value;
 
     let fileToUpload = null;
     if (capturedFile) {
@@ -74,6 +74,7 @@ async function analyzeFood() {
 
     const formData = new FormData();
     formData.append('file', fileToUpload);
+    formData.append('language', selectedLang);
     loadingDiv.classList.remove('hidden');
     editorArea.classList.add('hidden');
     loadingDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -100,7 +101,23 @@ async function analyzeFood() {
             document.getElementById('editPrice').value = rawPrice;
             }
             document.getElementById('editDesc').value = data.data.description;
-            document.getElementById('editNutri').value = data.data.nutrition_summary;      
+            document.getElementById('editNutri').value = data.data.nutrition_summary; 
+            
+            // Hiển thị tags WIP 
+            const tagsDiv = document.getElementById('editTags');
+            tagsDiv.innerHTML = ''; 
+            if (data.data.tags && data.data.tags.length > 0) {
+                data.data.tags.forEach(tag => {
+                    const span = document.createElement('span');
+                    span.className = 'smart-tag';
+                    span.innerText = tag;
+                    tagsDiv.appendChild(span);
+                });
+            }
+
+
+
+
             editorArea.classList.remove('hidden');
             editorArea.scrollIntoView({ behavior: 'smooth', block: 'start' });
             
@@ -146,12 +163,12 @@ function switchTab(tabId) {
     
     const file = inputElement.files[0];
     const loadingDiv = document.getElementById('menuLoading');
-    
+    const selectedLang = document.getElementById('outputLanguage').value;
     loadingDiv.classList.remove('hidden');
     
     const formData = new FormData();
     formData.append('file', file);
-
+    formData.append('language', selectedLang);
     try {
         const response = await fetch('/analyze', {
             method: 'POST',
@@ -172,7 +189,9 @@ function switchTab(tabId) {
                 name: data.data.dish_name,
                 price: formattedPrice,
                 description: data.data.description,
-                nutrition: data.data.nutrition_summary
+                nutrition: data.data.nutrition_summary,
+
+                tags: data.data.tags || []
             };
 
              menuItems.push(newItem);
@@ -210,7 +229,18 @@ function switchTab(tabId) {
     menuItems.forEach(item => {
         const itemDiv = document.createElement('div');
         itemDiv.className = 'menu-item';
-        
+
+        // Delete if needed
+        let tagsHtml = '';
+        if (item.tags && item.tags.length > 0) {
+            tagsHtml = '<div class="tags-container" style="margin-bottom: 10px;">' + 
+                       item.tags.map(t => `<span class="smart-tag">${t}</span>`).join('') + 
+                       '</div>';
+        }
+
+
+
+        // remove tagsHTML if you want to hide tags in menu list
         itemDiv.innerHTML = `
             <img src="${item.imageUrl}" alt="${item.name}" class="menu-item-img">
             <div class="menu-item-info">
@@ -218,7 +248,7 @@ function switchTab(tabId) {
                     <h4 class="menu-item-name">${item.name}</h4>
                     <span class="menu-item-price">${item.price}</span>
                 </div>
-                <p class="menu-item-desc">${item.description}</p>
+                ${tagsHtml} <p class="menu-item-desc">${item.description}</p>
                 <p class="menu-item-nutri">Nutrition: ${item.nutrition}</p>
             </div>
             <button onclick="removeFromMenu(${item.id})" class="remove-btn">✖ Remove</button>

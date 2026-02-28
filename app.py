@@ -42,6 +42,9 @@ def analyze():
             file.save(filepath)
             filepath_fixed = filepath.replace("\\", "/")
 
+            target_language = request.form.get('language', 'English')
+            print(f"🌐 Ngôn ngữ dịch: {target_language}")
+
             # ==========================================
             # YOLO DETECT 
             # ==========================================
@@ -83,14 +86,15 @@ def analyze():
             print("🤖 Đang gọi Gemini...")
             try:
                 # Truyền cả tên món (YOLO) và chữ đọc được (OCR) vào
-                menu_data = get_nutrition_info(detected_name, ocr_text=extracted_text)
+                menu_data = get_nutrition_info(detected_name, ocr_text=extracted_text, target_language=target_language)
             except Exception as e:
                 print(f"❌ Lỗi Gemini: {e}")
                 menu_data = {
                     "dish_name": detected_name,
-                    "price": "Đang cập nhật",
-                    "description": "Lỗi kết nối AI.",
-                    "nutrition_summary": "Không thể lấy thông tin."
+                    "price": "Unavailable",
+                    "description": "Connection error.",
+                    "nutrition_summary": "Cannot fetch data.",
+                    "tags": []
                 }
 
           

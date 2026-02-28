@@ -475,3 +475,50 @@ body {
         display: block !important;
     }
 }
+
+.lang-select {
+    background-color: #1f3328;
+    color: #ffffff;
+    border: 1px solid #2b4535;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: bold;
+    cursor: pointer;
+    margin-right: 15px;
+    outline: none;
+    font-family: inherit;
+}
+
+.lang-select:focus {
+    border-color: #00e676;
+}
+
+
+.tags-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.smart-tag {
+    display: inline-block;
+    background-color: rgba(0, 230, 118, 0.15); /* Nền xanh lá nhạt */
+    color: #00e676; /* Chữ xanh lá */
+    border: 1px solid #00e676;
+    padding: 4px 12px;
+    border-radius: 20px; /* Bo góc tròn */
+    font-size: 0.8rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+@media print {
+    .smart-tag {
+        border: 1px solid #27ae60 !important;
+        color: #27ae60 !important;
+        background-color: transparent !important;
+    }
+}
