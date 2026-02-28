@@ -10,7 +10,7 @@ UPLOAD_FOLDER = 'static/uploads'
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-# Khởi tạo OCR Service ngay khi app chạy
+
 try:
     ocr_service = OCRService()
     print("✅ OCR Service đã sẵn sàng!")
@@ -62,30 +62,30 @@ def analyze():
             # ==========================================
             #  OCR 
             # ==========================================
-            extracted_text = None # Mặc định là None
+            extracted_text = None 
             
             if ocr_service:
                 print("📖 Đang chạy OCR...")
                 try:
-                    # Gọi hàm extract_text từ service bạn vừa sửa
+                 
                     text_list = ocr_service.extract_text(filepath_fixed)
                     
                     if text_list and len(text_list) > 0:
-                        # Nối list thành string (cách nhau bởi " | ")
+                     
                         extracted_text = " | ".join(text_list)
                         print(f"✅ OCR đọc được: {extracted_text}")
                     else:
                         print("⚠️ OCR không tìm thấy chữ nào.")
                 except Exception as e:
                     print(f"❌ Lỗi khi chạy OCR: {e}")
-                    # Không return lỗi, vẫn để app chạy tiếp chỉ với YOLO
+                    
 
             # ==========================================
             #  GEMINI 
             # ==========================================
             print("🤖 Đang gọi Gemini...")
             try:
-                # Truyền cả tên món (YOLO) và chữ đọc được (OCR) vào
+            
                 menu_data = get_nutrition_info(detected_name, ocr_text=extracted_text, target_language=target_language)
             except Exception as e:
                 print(f"❌ Lỗi Gemini: {e}")

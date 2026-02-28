@@ -504,11 +504,11 @@ body {
 
 .smart-tag {
     display: inline-block;
-    background-color: rgba(0, 230, 118, 0.15); /* Nền xanh lá nhạt */
-    color: #00e676; /* Chữ xanh lá */
+    background-color: rgba(0, 230, 118, 0.15); 
+    color: #00e676; 
     border: 1px solid #00e676;
     padding: 4px 12px;
-    border-radius: 20px; /* Bo góc tròn */
+    border-radius: 20px; 
     font-size: 0.8rem;
     font-weight: bold;
     text-transform: uppercase;
