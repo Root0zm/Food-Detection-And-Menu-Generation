@@ -522,3 +522,34 @@ body {
         background-color: transparent !important;
     }
 }
+
+@media screen and (max-width: 768px) {
+    body, html {
+        overflow-x: hidden;
+    }
+    .navbar {
+        flex-direction: column;
+        padding: 15px 10px;
+        gap: 15px;
+    }
+    .nav-links {
+        flex-wrap: wrap;
+        justify-content: center;
+        width: 100%;
+        gap: 10px;
+    }
+    .lang-select {
+        margin-right: 0;
+        width: 100%;
+        text-align: center;
+    }
+    .nav-btn {
+        flex: 1 1 45%; 
+        font-size: 0.85rem;
+        padding: 10px 5px;
+        text-align: center;
+    }
+    h1 {
+        font-size: 2rem !important;
+    }
+}
