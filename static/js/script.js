@@ -245,11 +245,12 @@ function switchTab(tabId) {
             <img src="${item.imageUrl}" alt="${item.name}" class="menu-item-img">
             <div class="menu-item-info">
                 <div class="menu-item-header">
-                    <h4 class="menu-item-name">${item.name}</h4>
-                    <span class="menu-item-price">${item.price}</span>
+                    <h4 class="menu-item-name" contenteditable="true" onblur="updateMenuItem(${item.id}, 'name', this.innerText)" title="Click to edit">${item.name}</h4>
+                    <span class="menu-item-price" contenteditable="true" onblur="updateMenuItem(${item.id}, 'price', this.innerText)" title="Click to edit">${item.price}</span>
                 </div>
-                ${tagsHtml} <p class="menu-item-desc">${item.description}</p>
-                <p class="menu-item-nutri">Nutrition: ${item.nutrition}</p>
+                ${tagsHtml}
+                <p class="menu-item-desc" contenteditable="true" onblur="updateMenuItem(${item.id}, 'description', this.innerText)" title="Click to edit">${item.description}</p>
+                <p class="menu-item-nutri" contenteditable="true" onblur="updateMenuItem(${item.id}, 'nutrition', this.innerText.replace('Nutrition: ', ''))" title="Click to edit">Nutrition: ${item.nutrition}</p>
             </div>
             <button onclick="removeFromMenu(${item.id})" class="remove-btn">✖ Remove</button>
         `;
@@ -266,3 +267,59 @@ function switchTab(tabId) {
      window.print();
 }
 
+function updateMenuItem(id, field, newValue) {
+    const itemIndex = menuItems.findIndex(item => item.id === id);
+    if (itemIndex > -1) {
+        menuItems[itemIndex][field] = newValue;
+        localStorage.setItem('myRestaurantMenu', JSON.stringify(menuItems));
+    }
+}
+
+function changeTheme() {
+    const selectBox = document.getElementById('menuTheme');
+    const bgImage = document.getElementById('printBgImage');
+    const restaurantTitle = document.getElementById('restaurantName'); 
+    const selectedUrl = selectBox.value;
+
+    if (selectedUrl === "none") {
+        bgImage.style.display = "none";
+        bgImage.src = "";
+        
+   
+        restaurantTitle.style.color = "#2c3e50"; 
+        restaurantTitle.style.borderBottomColor = "#2c3e50";
+    } else {
+        bgImage.src = selectedUrl;
+        bgImage.style.display = "block";
+        
+   
+        if (selectedUrl.includes("Wooden")) { 
+         
+            restaurantTitle.style.color = "#5d4037"; 
+            restaurantTitle.style.borderBottomColor = "#5d4037";
+        } 
+        else if (selectedUrl.includes("Dark")) { 
+         
+            restaurantTitle.style.color = "#ffffff"; 
+            restaurantTitle.style.borderBottomColor = "#ffffff";
+        } 
+        else if (selectedUrl.includes("Black")) { 
+         
+            restaurantTitle.style.color = "#f1c40f"; 
+            restaurantTitle.style.borderBottomColor = "#f1c40f";
+        }
+    }
+}
+
+
+function limitTitleLength(event) {
+    const title = event.target;
+    if (event.key === 'Enter') {
+        event.preventDefault();
+        return;
+    }
+    const allowedKeys = ['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'];
+    if (title.innerText.length >= 32 && !allowedKeys.includes(event.key)) {
+        event.preventDefault();
+    }
+}

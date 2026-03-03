@@ -129,16 +129,37 @@
                 </div>
             </div>
 
-            <div class="menu-preview-section">
-                <div class="menu-header-actions">
-                    <h3>Menu Preview</h3>
-                    <button onclick="exportToPDF()" class="btn-trigger export-btn"> Export PDF</button>
+            <div class="menu-preview-section" style="display: block; width: 100%;">
+                
+                <div class="menu-header-actions" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 15px;">
+                    <h3 style="margin: 0;">Menu Preview</h3>
+                    
+                    <div style="display: flex; gap: 15px; align-items: center; flex-wrap: wrap;">
+                        <div class="theme-selector">
+                            <label for="menuTheme" style="font-weight: bold; margin-right: 10px;">🎨 Template:</label>
+                            <select id="menuTheme" class="lang-select" onchange="changeTheme()">
+                                <option value="none">Minimal White (No Background)</option>
+                                <option value="">📜 Vintage Paper</option>
+                                <option value="">🪵 Wooden Table</option>
+                                <option value="">🌌 Elegant Dark</option>
+                            </select>
+                        </div>
+                        <button onclick="exportToPDF()" class="btn-trigger export-btn"> Export PDF</button>
+                    </div>
                 </div>
                 
                 <div id="pdfArea" class="pdf-container">
-                    <h1 class="restaurant-name">Menu</h1>
-                    <div id="menuList" class="menu-list">
-                        <p class="empty-menu-msg">Your menu is empty. Add some dishes!</p>
+                    <img id="printBgImage" class="print-bg-image" src="" alt="Background" style="display: none;">
+                    
+                    <div class="menu-content-wrapper">
+                        <h1 id="restaurantName" class="restaurant-name" 
+                            contenteditable="true" 
+                            spellcheck="false" 
+                            title="Click để đổi tên menu"
+                            onkeydown="limitTitleLength(event)">My Restaurant Menu</h1>
+                        <div id="menuList" class="menu-list">
+                            <p class="empty-menu-msg">Your menu is empty. Add some dishes!</p>
+                        </div>
                     </div>
                 </div>
             </div>
