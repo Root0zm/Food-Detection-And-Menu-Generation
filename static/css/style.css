@@ -625,7 +625,7 @@ body {
 }
 
 .menu-item {
-    background-color: rgba(255, 255, 255, 0.95) !important;
+    background-color: rgba(255, 255, 255, 0.7) !important;
     padding: 20px;
     border-radius: 12px;
     border: 1px solid rgba(0, 0, 0, 0.1) !important; 
@@ -721,6 +721,7 @@ body {
         break-inside: avoid !important;
     }
 
+     
 
     .menu-item::before {
         content: "" !important;
@@ -738,11 +739,15 @@ body {
         z-index: -1 !important;
     }
 
+  
+
     .smart-tag {
         border: 1px solid #27ae60 !important;
         color: #27ae60 !important;
         background-color: rgba(255, 255, 255, 0.6) !important;
     }
+
+  
 }
 
 
@@ -758,4 +763,33 @@ body {
     border-bottom-color: #00e676 !important; 
     background-color: rgba(255, 255, 255, 0.5);
     border-radius: 8px 8px 0 0;
+}
+ /* FIX WHITE SPACE */
+.pdf-container,
+.menu-content-wrapper,
+.menu-list {
+    background-color: transparent !important;
+}
+
+.menu-item, 
+.theme-08 .menu-item {
+    background-color: transparent !important; 
+}
+
+.menu-item::before {
+    content: "" !important;
+    position: absolute !important;
+    top: 0 !important; 
+    left: 0 !important; 
+    right: 0 !important; 
+    bottom: 0 !important;
+    background-color: rgba(255, 255, 255, 0.8) !important; 
+    border-radius: 12px !important; 
+    border: 1px solid rgba(0, 0, 0, 0.1) !important; 
+    z-index: -1 !important; 
+}
+
+
+.theme-08 .menu-item::before {
+    background-color: rgba(255, 255, 255, 1) !important; 
 }

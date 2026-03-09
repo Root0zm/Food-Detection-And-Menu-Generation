@@ -4,6 +4,24 @@ from google import genai
 from google.genai import types
 from dotenv import load_dotenv
 
+YOLO_CLASS_MAPPING = {
+    "banh_cuon": "Bánh cuốn",
+    "banh_gio": "Bánh giò",
+    "banh_mi": "Bánh mì",
+    "bun_bo_hue": "Bún bò Huế",
+    "bun_cha": "Bún chả",
+    "bun_dau": "Bún đậu mắm tôm",
+    "bun_thit_nuong": "Bún thịt nướng",
+    "chao_long": "Cháo lòng",
+    "com": "Cốm",            
+    "com_tam": "Cơm tấm",
+    "fried_rice": "Cơm chiên",
+    "pho": "Phở",
+    "spring_rolls": "Gỏi cuốn", 
+    "xoi": "Xôi"
+}
+
+
 load_dotenv()
 API_KEY = os.getenv("GEMINI_API_KEY")
 
@@ -18,6 +36,7 @@ def get_nutrition_info(food_name, ocr_text=None, target_language="English"):
     
     print(f" Gemini đang viết mô tả cho món: {food_name}...")
 
+    food_name_vn = YOLO_CLASS_MAPPING.get(food_name, food_name)
    
     ocr_context = ""
 
@@ -26,18 +45,18 @@ def get_nutrition_info(food_name, ocr_text=None, target_language="English"):
         Additional information from OCR (text read from the image): "{ocr_text}".
         Please use this information to:
         1. Determine a more accurate dish name (e.g., if the identified dish is "Pho", but OCR reads "Special Pho", use "Special Pho").
-        2. Find the exact price associated with the dish "{food_name}".
+        2. Find the exact price associated with the dish "{food_name_vn}".
         """
         
     prompt = f"""
-    The identified dish is: "{food_name}".
+    The identified dish is: "{food_name_vn}".
     {ocr_context}
     
     Act as a culinary expert and nutritionist writing content for a restaurant menu.
     Your tasks:
     1. Provide the dish name in {target_language} (translate from Vietnamese if necessary).
-    2. Write an appetizing description in {target_language}
-    3. Write a brief nutrition summary in {target_language}
+    2. Write an appetizing description in {target_language}. STRICT LIMIT: Maximum 25 words.
+    3. Write a brief nutrition summary in {target_language}. STRICT LIMIT: Maximum 15 words.
     4. Find the price from the provided text. If no price is available, output "Unavailable".
     5. Normalize the price into a numeric format (e.g., "35k" -> 35000, "35.000" -> 35000).
     6. Generate exactly 3 to 4 short nutritional macro tags estimating a standard serving size (e.g., "500 kcal", "30g Protein", "15g Fat", "40g Carbs").

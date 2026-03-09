@@ -1,5 +1,5 @@
-let currentImageUrl = "";
 
+let currentImageUrl = "";
 let stream = null;
 let capturedFile = null; 
 
@@ -278,8 +278,18 @@ function updateMenuItem(id, field, newValue) {
 function changeTheme() {
     const selectBox = document.getElementById('menuTheme');
     const bgImage = document.getElementById('printBgImage');
+    const pdfArea = document.getElementById('pdfArea');
     const restaurantTitle = document.getElementById('restaurantName'); 
     const selectedUrl = selectBox.value;
+
+    pdfArea.className = 'pdf-container'; 
+    restaurantTitle.style.marginLeft = "0"; 
+    restaurantTitle.style.borderBottom = "";
+    
+    restaurantTitle.style.marginLeft = "0";       
+    restaurantTitle.style.marginRight = "0";     
+    restaurantTitle.style.borderBottom = "";      
+    pdfArea.classList.remove('theme-08');
 
     if (selectedUrl === "none") {
         bgImage.style.display = "none";
@@ -293,20 +303,34 @@ function changeTheme() {
         bgImage.style.display = "block";
         
    
-        if (selectedUrl.includes("Wooden")) { 
+        if (selectedUrl.includes("06")) { 
          
-            restaurantTitle.style.color = "#5d4037"; 
-            restaurantTitle.style.borderBottomColor = "#5d4037";
+            restaurantTitle.style.color = "#6d301f"; 
+            
+            restaurantTitle.style.borderBottomColor = "#6d301f";
+           
         } 
-        else if (selectedUrl.includes("Dark")) { 
+        else if (selectedUrl.includes("08")) { 
          
             restaurantTitle.style.color = "#ffffff"; 
-            restaurantTitle.style.borderBottomColor = "#ffffff";
+            restaurantTitle.style.marginLeft = "150px";
+            restaurantTitle.style.borderBottom = "none";
+            pdfArea.classList.add('theme-08');
+            
         } 
-        else if (selectedUrl.includes("Black")) { 
+        else if (selectedUrl.includes("07")) { 
          
-            restaurantTitle.style.color = "#f1c40f"; 
-            restaurantTitle.style.borderBottomColor = "#f1c40f";
+            restaurantTitle.style.color = "#4673e5"; 
+            restaurantTitle.style.marginRight = "180px";
+            restaurantTitle.style.borderBottom = "none";
+            restaurantTitle.style.fontFamily = "'Montserrat', serif";
+            pdfArea.classList.add('theme-08');
+        }
+        else if (selectedUrl.includes("05")) { 
+         
+            restaurantTitle.style.color = "#dfebb1"; 
+            restaurantTitle.style.borderBottom = "none";
+            pdfArea.classList.add('theme-08');  
         }
     }
 }
@@ -323,3 +347,7 @@ function limitTitleLength(event) {
         event.preventDefault();
     }
 }
+
+document.addEventListener('DOMContentLoaded', function() { 
+    changeTheme();
+});
