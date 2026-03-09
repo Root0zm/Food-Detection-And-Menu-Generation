@@ -285,7 +285,7 @@ function changeTheme() {
     pdfArea.className = 'pdf-container'; 
     restaurantTitle.style.marginLeft = "0"; 
     restaurantTitle.style.borderBottom = "";
-    
+
     restaurantTitle.style.marginLeft = "0";       
     restaurantTitle.style.marginRight = "0";     
     restaurantTitle.style.borderBottom = "";      
@@ -350,4 +350,38 @@ function limitTitleLength(event) {
 
 document.addEventListener('DOMContentLoaded', function() { 
     changeTheme();
+});
+
+function updateUILanguage() {
+    const selectedLang = document.getElementById('outputLanguage').value;
+    localStorage.setItem('app_lang', selectedLang);
+
+    const elements = document.querySelectorAll('[data-i18n]');
+
+    if (uiTranslations[selectedLang]) {
+        elements.forEach(el => {
+            const key = el.getAttribute('data-i18n');
+            
+            if (uiTranslations[selectedLang][key]) {
+                if (el.tagName === 'TITLE') {
+                    document.title = uiTranslations[selectedLang][key];
+                } else {
+                    el.innerHTML = uiTranslations[selectedLang][key];
+                }
+            }
+        });
+    }
+}
+
+document.getElementById('outputLanguage').addEventListener('change', updateUILanguage);
+document.addEventListener('DOMContentLoaded', function() {
+    const savedLang = localStorage.getItem('app_lang');
+    if (savedLang) {
+        document.getElementById('outputLanguage').value = savedLang; 
+    }
+
+    updateUILanguage();
+    if (typeof changeTheme === "function") {
+        changeTheme();
+    }
 });

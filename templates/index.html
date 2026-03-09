@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Now i know what i eat</title>
+    <title data-i18n="title">Now i know what i eat</title>
 
     <link rel="manifest" href="/static/manifest.json">
     <meta name="theme-color" content="#17241e">
@@ -14,19 +14,19 @@
 <body>
 
 <nav class="navbar">
-        <div class="logo">Food Detection</div>
+        <div class="logo" data-i18n="logo">Food Detection</div>
         <div class="nav-links">
 
-            <select id="outputLanguage" class="lang-select">
-                <option value="English">🇬🇧 English</option>
-                <option value="Vietnamese">🇻🇳 Tiếng Việt</option>
-                <option value="Japanese">🇯🇵 日本語</option>
-                <option value="Korean">🇰🇷 한국어</option>
-                <option value="Chinese">🇨🇳 中文</option>
+            <select id="outputLanguage" class="lang-select" data-i18n="lang-select">
+                <option value="English" data-i18n="lang-english">🇬🇧 English</option>
+                <option value="Vietnamese" data-i18n="lang-vietnamese">🇻🇻 Tiếng Việt</option>
+                <option value="Japanese" data-i18n="lang-japanese">🇯🇵 日本語</option>
+                <option value="Korean" data-i18n="lang-korean">🇰🇷 한국어</option>
+                <option value="Chinese" data-i18n="lang-chinese">🇨🇳 中文</option>
             </select>
 
-            <button onclick="switchTab('scanTab')" class="nav-btn active" id="btn-scanTab">Scan Food</button>
-            <button onclick="switchTab('menuTab')" class="nav-btn" id="btn-menuTab">Create Menu</button>
+            <button onclick="switchTab('scanTab')" class="nav-btn active" id="btn-scanTab" data-i18n="btn-scan">Scan Food</button>
+            <button onclick="switchTab('menuTab')" class="nav-btn" id="btn-menuTab" data-i18n="btn-menu">Create Menu</button>
         </div>
     </nav>
 
@@ -36,8 +36,8 @@
     
     <div class="hero-section">
     <!--<div class="badge">● AI TECHNOLOGY</div> --> 
-        <h1>Analyze food with <span class="highlight">AI</span><br> in seconds</h1>
-        <p>Powered by advanced YOLO and OCR technology to extract menu information instantly.</p>
+        <h1 data-i18n="hero-title">Analyze food with <span class="highlight">AI</span><br> in seconds</h1>
+        <p data-i18n="hero-desc">Powered by advanced YOLO and OCR technology to extract menu information instantly.</p>
     </div>  
 
     <div class="action-cards">
@@ -46,8 +46,8 @@
             <div class="icon-wrapper">
                 <span class="icon">☁️</span> 
             </div>
-            <h3>Upload image</h3>
-            <p>Click here to choose an image from your device.</p>
+            <h3 data-i18n="upload-title">Upload image</h3>
+            <p data-i18n="upload-desc">Click here to choose an image from your device.</p>
             <input type="file" id="imageInput" accept="image/*" style="display: none;">
         </label>
 
@@ -55,9 +55,9 @@
             <div class="icon-wrapper">
                 <span class="icon">📷</span>
             </div>
-            <h3>Take a photo</h3>
-            <p>Use your device's camera to scan and identify food items instantly.</p>
-            <button onclick="startCamera()" id="btnOpenCamera" class="btn-trigger">Activate Camera</button>
+            <h3 data-i18n="camera-title">Take a photo</h3>
+            <p data-i18n="camera-desc">Use your device's camera to scan and identify food items instantly.</p>
+            <button onclick="startCamera()" id="btnOpenCamera" class="btn-trigger" data-i18n="btn-camera">Activate Camera</button>
         </div>
 
     </div>
@@ -65,15 +65,15 @@
     <div id="cameraContainer" class="hidden camera-preview-box">
         <video id="videoElement" autoplay playsinline></video>
         <div class="camera-actions">
-            <button onclick="capturePhoto()" class="btn-trigger">📸 Capture</button>
-            <button onclick="stopCamera()" class="btn-close">❌ Close</button>
+            <button onclick="capturePhoto()" class="btn-trigger" data-i18n="btn-capture">📸 Capture</button>
+            <button onclick="stopCamera()" class="btn-close" data-i18n="btn-close">❌ Close</button>
         </div>
     </div>
     <canvas id="canvasElement" style="display: none;"></canvas>
 
     <div id="loading" class="hidden">
         <div class="spinner"></div>
-        <p> Analyzing food...</p>
+        <p data-i18n="analyzing"> Analyzing food...</p>
     </div>
 
     <div id="editorArea" class="hidden">
@@ -81,24 +81,24 @@
             <img id="editImg" src="" alt="Preview">
             
             <div class="form-group">
-                <label>Dish Name:</label>
+                <label data-i18n="label-name">Dish Name:</label>
                 <input type="text" id="editName" class="form-control big-text">
                 
                 <div id="editTags" class="tags-container"></div>
             </div>
 
             <div class="form-group">
-                <label>Price:</label>
+                <label data-i18n="label-price">Price:</label>
                 <input type="text" id="editPrice" class="form-control price-text" placeholder="Ví dụ: 50.000đ">
             </div>
 
             <div class="form-group">
-                <label>Description:</label>
+                <label data-i18n="label-desc">Description:</label>
                 <textarea id="editDesc" rows="4" class="form-control"></textarea>
             </div>
 
             <div class="form-group">
-                <label>Nutrition:</label>
+                <label data-i18n="label-nutrition">Nutrition:</label>
                 <textarea id="editNutri" rows="3" class="form-control"></textarea>
             </div>
         </div>
@@ -109,14 +109,14 @@
     <div id="menuTab" class="tab-content hidden">
         <div class="hero-section">
           
-            <h1>Digital Menu  <span class="highlight">Generation</span></h1>
-            <p>Scan food items and generate a professional menu in PDF format.</p>
+            <h1 data-i18n="menu-hero-title">Digital Menu  <span class="highlight">Generation</span></h1>
+            <p data-i18n="menu-hero-desc">Scan food items and generate a professional menu in PDF format.</p>
         </div>
         <div class="menu-builder-container">
             <div class="menu-controls">
                 <label for="menuImageInput" style="cursor: pointer; display: block; padding-bottom: 10px;">
-                    <h3 style="margin-top: 0;">Add New Dish</h3>
-                    <div class="btn-primary add-menu-btn" style="display: inline-block;">
+                    <h3 style="margin-top: 0;" data-i18n="add-dish-title">Add New Dish</h3>
+                    <div class="btn-primary add-menu-btn" style="display: inline-block;" data-i18n="btn-upload-add">
                          Upload Image & Add
                     </div>
                 </label>
@@ -125,26 +125,26 @@
                 
                 <div id="menuLoading" class="hidden">
                     <div class="spinner"></div>
-                    <p style="color: #00e676; font-weight: bold;"> Analyzing & Adding...</p>
+                    <p style="color: #00e676; font-weight: bold;" data-i18n="analyzing-adding"> Analyzing & Adding...</p>
                 </div>
             </div>
 
             <div class="menu-preview-section" style="display: block; width: 100%;">
                 
                 <div class="menu-header-actions" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 15px;">
-                    <h3 style="margin: 0;">Menu Preview</h3>
+                    <h3 style="margin: 0;" data-i18n="menu-preview">Menu Preview</h3>
                     
                     <div style="display: flex; gap: 15px; align-items: center; flex-wrap: wrap;">
                         <div class="theme-selector">
-                            <label for="menuTheme" style="font-weight: bold; margin-right: 10px;">🎨 Template:</label>
-                            <select id="menuTheme" class="lang-select" onchange="changeTheme()">
-                                <option value="/static/images/br07.png">Option 1</option>
-                                <option value="/static/images/br08.png">Option 2</option>
-                                <option value="/static/images/br06.png">Option 3</option>
+                            <label for="menuTheme" style="font-weight: bold; margin-right: 10px;" data-i18n="template-label">🎨 Template:</label>
+                            <select id="menuTheme" class="lang-select" onchange="changeTheme()" data-i18n="template-select">
+                                <option value="/static/images/br06.png" data-i18n="template-opt1">Option 1</option>
+                                <option value="/static/images/br07.png" data-i18n="template-opt2">Option 2</option>
+                                <option value="/static/images/br08.png" data-i18n="template-opt3">Option 3</option>
                              <!-- <option value="/static/images/br05.png">Option 4</option> -->  
                             </select>
                         </div>
-                        <button onclick="exportToPDF()" class="btn-trigger export-btn"> Export PDF</button>
+                        <button onclick="exportToPDF()" class="btn-trigger export-btn" data-i18n="btn-export"> Export PDF</button>
                     </div>
                 </div>
                 
@@ -156,16 +156,17 @@
                             contenteditable="true" 
                             spellcheck="false" 
                             title="Click để đổi tên menu"
-                            onkeydown="limitTitleLength(event)">My Restaurant Menu</h1>
+                            onkeydown="limitTitleLength(event)"
+                            data-i18n="menu-title">My Restaurant Menu</h1>
                         <div id="menuList" class="menu-list">
-                            <p class="empty-menu-msg">Your menu is empty. Add some dishes!</p>
+                            <p class="empty-menu-msg" data-i18n="empty-menu">Your menu is empty. Add some dishes!</p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
         </div>
-
+        <script src="/static/js/translation.js"></script>
     <script src="/static/js/script.js"></script>
 </body>
 </html>
