@@ -24,38 +24,37 @@ class OCRService:
 
         try:
 
+            # Use predict method which works with PaddleX 3.0+ OCR pipeline
             results = self.ocr.predict(img_path)
             
-            raw_texts = []
+            extracted_items = []
             
             for res in results:
-                if hasattr(res, 'rec_texts'):
-                    if res.rec_texts:
-                        for text in res.rec_texts:
-                            if text:
-                                raw_texts.append(str(text))
+                # The result is a dict-like OCRResult object containing 'rec_texts' and 'dt_polys'
+                if isinstance(res, dict) and 'rec_texts' in res and 'dt_polys' in res:
+                    texts = res['rec_texts']
+                    polys = res['dt_polys']
+                    
+                    for text, poly in zip(texts, polys):
+                        text = text.strip()
+                        if not text: continue
+                        
+                        # Convert numpy array to list
+                        box = poly.tolist() if hasattr(poly, 'tolist') else poly
+                        
+                        # Apply the same filtering rules as before
+                        if text.lower() in ['k', 'đ', 'd', '$', 'vnd', 'xu']:
+                            extracted_items.append({'text': text, 'box': box})
+                            continue
 
-                elif isinstance(res, dict) and 'rec_texts' in res:
-                    raw_texts.extend(res['rec_texts'])
+                        if len(text) < 2 and not re.search(r'\d', text):
+                            continue
+                        if not re.search(r'[a-zA-Z0-9àáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđ]', text):
+                            continue
 
-       
-            clean_texts = []
-            for text in raw_texts:
-                text = text.strip()
-                if not text: continue
-                
-                if text.lower() in ['k', 'đ', 'd', '$', 'vnd', 'xu']:
-                    clean_texts.append(text)
-                    continue
+                        extracted_items.append({'text': text, 'box': box})
 
-                if len(text) < 2 and not re.search(r'\d', text):
-                    continue
-                if not re.search(r'[a-zA-Z0-9àáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđ]', text):
-                    continue
-
-                clean_texts.append(text)
-
-            return clean_texts
+            return extracted_items
 
         except Exception as e:
             print(f"❌ Lỗi OCR Service: {e}")

@@ -75,6 +75,7 @@ async function analyzeFood() {
     const formData = new FormData();
     formData.append('file', fileToUpload);
     formData.append('language', selectedLang);
+    formData.append('mode', 'scan');
     loadingDiv.classList.remove('hidden');
     editorArea.classList.add('hidden');
     loadingDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -169,6 +170,7 @@ function switchTab(tabId) {
     const formData = new FormData();
     formData.append('file', file);
     formData.append('language', selectedLang);
+    formData.append('mode', 'menu');
     try {
         const response = await fetch('/analyze', {
             method: 'POST',
@@ -179,25 +181,30 @@ function switchTab(tabId) {
         loadingDiv.classList.add('hidden');
 
         if (data.success) {
-             let rawPrice = String(data.data.price);
-            let numericPrice = parseInt(rawPrice.replace(/\D/g, ''), 10);
-            let formattedPrice = !isNaN(numericPrice) ? numericPrice.toLocaleString('en-US') + " VND" : rawPrice;
+            if (data.items && data.items.length > 0) {
+                data.items.forEach(item => {
+                    let rawPrice = String(item.data.price);
+                    let numericPrice = parseInt(rawPrice.replace(/\D/g, ''), 10);
+                    let formattedPrice = !isNaN(numericPrice) ? numericPrice.toLocaleString('en-US') + " VND" : rawPrice;
 
-             const newItem = {
-                id: Date.now(),  
-                imageUrl: data.image_url,
-                name: data.data.dish_name,
-                price: formattedPrice,
-                description: data.data.description,
-                nutrition: data.data.nutrition_summary,
+                    const newItem = {
+                        id: Date.now() + Math.floor(Math.random() * 10000),  
+                        imageUrl: item.image_url,
+                        name: item.data.dish_name,
+                        price: formattedPrice,
+                        description: item.data.description,
+                        nutrition: item.data.nutrition_summary,
+                        tags: item.data.tags || []
+                    };
 
-                tags: data.data.tags || []
-            };
-
-             menuItems.push(newItem);
-            localStorage.setItem('myRestaurantMenu', JSON.stringify(menuItems));
-            
-             renderMenu();
+                    menuItems.push(newItem);
+                });
+                
+                localStorage.setItem('myRestaurantMenu', JSON.stringify(menuItems));
+                renderMenu();
+            } else {
+                alert("Không nhận diện được món ăn nào để thêm vào Menu.");
+            }
             
              inputElement.value = "";
         } else {
