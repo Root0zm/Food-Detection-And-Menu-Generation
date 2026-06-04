@@ -34,7 +34,7 @@ def get_nutrition_info(food_name, ocr_text=None, target_language="English"):
     if not client:
         return {"error": "Chưa cấu hình API Key"}
     
-    print(f" Gemini đang viết mô tả cho món: {food_name}...")
+    print(f" Đang viết mô tả cho món: {food_name}...")
 
     food_name_vn = YOLO_CLASS_MAPPING.get(food_name, food_name)
    
@@ -98,7 +98,7 @@ def get_nutrition_info(food_name, ocr_text=None, target_language="English"):
         return data
 
     except Exception as e:
-        print(f"❌ Lỗi Gemini: {e}")
+        print(f" Lỗi Gemini: {e}")
         return {
             "dish_name": food_name,
             "price": "Unavailable",

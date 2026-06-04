@@ -1,4 +1,14 @@
 import os
+import sys
+
+# Khống chế OpenMP và MKL threads để tránh deadlock khi chạy PaddleOCR trong Flask thread
+os.environ["OMP_NUM_THREADS"] = "1"
+os.environ["MKL_NUM_THREADS"] = "1"
+os.environ["OPENBLAS_NUM_THREADS"] = "1"
+os.environ["FLAGS_use_onednn"] = "0"
+os.environ["FLAGS_use_mkldnn"] = "0"
+os.environ["PADDLE_PDX_ENABLE_MKLDNN_BYDEFAULT"] = "0"
+
 from flask import Flask, render_template, request, jsonify
 from services.yolo_service import detect_food
 from services.gemini_service import get_nutrition_info
@@ -13,9 +23,9 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 try:
     ocr_service = OCRService()
-    print("✅ OCR Service đã sẵn sàng!")
+    print(" OCR Service đã sẵn sàng!")
 except Exception as e:
-    print(f"❌ Lỗi khởi tạo OCR: {e}")
+    print(f" Lỗi khởi tạo OCR: {e}")
     ocr_service = None
 
 @app.route('/health')
@@ -124,20 +134,30 @@ def analyze():
                     # 1. Spatial Association (Associate name + price)
                     t_i_star = "Unavailable"
                     if ocr_items:
-                        c_box = get_centroid_box(b_i)
-                        food_w = b_i[2] - b_i[0]
-                        food_h = b_i[3] - b_i[1]
-                        max_dim = max(food_w, food_h)
+                        w_img, h_img = original_img.size
+                        norm_scale = 800.0 / float(max(w_img, h_img))
+                        dist_threshold = 140.0
                         
-                        # Distance threshold: 1.5 * max dimension of the dish box, minimum 250px, maximum 350px
-                        dist_threshold = max(250.0, min(350.0, max_dim * 1.6))
+                        b_norm = [x * norm_scale for x in b_i]
                         
-                        # Sort all OCR items by distance to the food centroid
                         ocr_with_dist = []
                         for ocr_item in ocr_items:
-                            c_poly = get_centroid_poly(ocr_item['box'])
-                            dist = math.hypot(c_box[0] - c_poly[0], c_box[1] - c_poly[1])
-                            ocr_with_dist.append((dist, ocr_item))
+                            poly_norm = [[pt[0] * norm_scale, pt[1] * norm_scale] for pt in ocr_item['box']]
+                            ox, oy = get_centroid_poly(poly_norm)
+                            
+                            # Closest point on food boundary in normalized space
+                            cx = max(b_norm[0], min(ox, b_norm[2]))
+                            cy = max(b_norm[1], min(oy, b_norm[3]))
+                            
+                            dx = ox - cx
+                            dy = oy - cy
+                            
+                            # Penalize elements that are above the food box
+                            if oy < b_norm[1]:
+                                dy = dy * 5.0
+                                
+                            edge_dist = math.hypot(dx, dy)
+                            ocr_with_dist.append((edge_dist, ocr_item))
                             
                         ocr_with_dist.sort(key=lambda x: x[0])
                         
@@ -159,16 +179,17 @@ def analyze():
                                 
                             associated_texts_with_centroid.sort(key=lambda x: x[0])
                             
-                            # Group into rows with 20px tolerance
+                            # Group into rows with tolerance adjusted to image size
                             rows = []
                             current_row = []
                             current_y = -1
+                            row_tolerance = max(15.0, 20.0 * norm_scale)
                             
                             for cy, cx, a_item in associated_texts_with_centroid:
                                 if current_y == -1:
                                     current_y = cy
                                     current_row.append((cx, a_item))
-                                elif abs(cy - current_y) < 20:
+                                elif abs(cy - current_y) < row_tolerance:
                                     current_row.append((cx, a_item))
                                 else:
                                     current_row.sort(key=lambda x: x[0])
@@ -206,8 +227,7 @@ def analyze():
                     if cache_key in gemini_cache:
                         print(f" Dùng lại kết quả Gemini cho món: {c_i}")
                         menu_data = copy.deepcopy(gemini_cache[cache_key])
-                        # We can still overwrite the price if OCR found a different price for this specific instance
-                        # But for now, we just reuse the whole block to save time and API calls as requested.
+                       
                     else:
                         try:
                             menu_data = get_nutrition_info(c_i, ocr_text=t_i_star, target_language=target_language)

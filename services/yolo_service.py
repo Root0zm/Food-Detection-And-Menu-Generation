@@ -1,7 +1,25 @@
 #yolo
 import os
+import sys
+import site
 import cv2
 import numpy as np
+
+# Windows DLL loading resolution for NVIDIA CUDA libraries in virtual environment site-packages
+if sys.platform == 'win32':
+    try:
+        for sp in site.getsitepackages():
+            nvidia_dir = os.path.join(sp, 'nvidia')
+            if os.path.exists(nvidia_dir):
+                for root, dirs, files in os.walk(nvidia_dir):
+                    if root.endswith('bin'):
+                        try:
+                            os.add_dll_directory(root)
+                        except Exception:
+                            pass
+    except Exception:
+        pass
+
 from ultralytics import YOLO
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -9,7 +27,9 @@ MODEL_PATH = os.path.join(BASE_DIR, 'models', 'best.pt')
 
 
 try:
-    print(f"🔄 Đang load model từ: {MODEL_PATH}")
+    import torch
+    device_status = "GPU/CUDA" if torch.cuda.is_available() else "CPU"
+    print(f"🔄 Đang load model từ: {MODEL_PATH} ({device_status})")
     model = YOLO(MODEL_PATH)
 except Exception as e:
     print(f"Lỗi load model: {e}")
@@ -56,7 +76,7 @@ def detect_food(image_path, is_menu=False):
                 class_name = result.names[class_id]
                 confidence = float(box.conf[0].item())
                 x1, y1, x2, y2 = box.xyxy[0].tolist()
-                print(f"   👉 Server thấy: {class_name} ({confidence:.2f})")
+                print(f"  {class_name} ({confidence:.2f})")
                 detected_items.append({
                     'class_name': class_name,
                     'confidence': confidence,
@@ -66,7 +86,7 @@ def detect_food(image_path, is_menu=False):
         return detected_items
 
     # --- SAHI / Sliding Window Inference for Menu ---
-    print("🔪 Bắt đầu cắt lát ảnh (SAHI)...")
+   
     img = cv2.imread(image_path)
     if img is None:
         return []
@@ -157,7 +177,7 @@ def detect_food(image_path, is_menu=False):
                     break
         if keep:
             final_items.append(item)
-            print(f"   👉 Chốt (SAHI): {item['class_name']} ({item['confidence']:.2f})")
+            print(f"    {item['class_name']} ({item['confidence']:.2f})")
             
-    print(f"Kết quả chốt: {len(final_items)} món")
+    print(f"Kết quả : {len(final_items)} món")
     return final_items
